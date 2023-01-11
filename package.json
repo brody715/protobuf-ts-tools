@@ -1,0 +1,91 @@
+{
+  "name": "protobuf-ts-tools",
+  "version": "0.0.1",
+  "author": "brody715 <brody71517@gmail.com>",
+  "licence": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "bin": {
+    "pb-tools": "./dist/pb-tools.mjs"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./client": {
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.cjs"
+    },
+    "./mock": {
+      "import": "./dist/mock.mjs",
+      "require": "./dist/mock.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:brody715/protobuf-ts-tools.git"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "commander": "^9.5.0",
+    "express": "^4.18.2",
+    "jiti": "^1.16.2",
+    "morgan": "^1.10.0",
+    "picocolors": "^1.0.0"
+  },
+  "devDependencies": {
+    "@protobuf-ts/runtime": "^2.8.2",
+    "@protobuf-ts/runtime-rpc": "^2.8.2",
+    "@types/express": "^4.17.15",
+    "@types/node": "^14.18.36",
+    "@types/yargs": "^17.0.19",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "eslint": "^8.31.0",
+    "eslint-define-config": "^1.13.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "only-allow": "^1.1.1",
+    "prettier": "^2.8.2",
+    "prettier-plugin-organize-imports": "^3.2.1",
+    "rollup": "^3.9.1",
+    "typescript": "^4.9.4",
+    "unbuild": "^1.0.2",
+    "vite": "^4.0.4",
+    "vitest": "^0.27.0"
+  },
+  "scripts": {
+    "preinstall": "only-allow pnpm",
+    "postinstall": "husky install",
+    "format": "prettier --write .",
+    "lint": "eslint --cache .",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "build": "unbuild",
+    "dev": "unbuild --stub"
+  },
+  "lint-staged": {
+    "*.{css,js,jsx,ts,tsx,md,json,yml}": "prettier --write --cache --ignore-unknown",
+    "packages/*/{src,types}/**/*.ts": [
+      "eslint --cache --fix"
+    ],
+    "packages/**/*.d.ts": [
+      "eslint --cache --fix"
+    ]
+  },
+  "peerDependencies": {
+    "@protobuf-ts/runtime": ">=2.8.0",
+    "@protobuf-ts/runtime-rpc": ">=2.8.0"
+  }
+}
