@@ -15,16 +15,19 @@ import {debounce} from "./mocks/utils";
 
 async function handleMock(opt: {
   filePrefix: string;
+  expressLog?: boolean;
   dir: string;
   port: number;
   prefix: string;
-  host: boolean;
+  host?: boolean;
 }) {
+  const logger = createLogger();
+
+  logger.info(`opts=${JSON.stringify(opt)}`);
+
   if (!opt.filePrefix) {
     throw new Error(`invalid opts=${JSON.stringify(opt)}`);
   }
-
-  const logger = createLogger();
 
   const watchDir = opt.dir;
   const jitiBaseDir = process.cwd();
@@ -41,6 +44,7 @@ async function handleMock(opt: {
         host: opt.host ? "0.0.0.0" : undefined,
         port: opt.port,
         prefix: opt.prefix,
+        expressLog: opt.expressLog,
       },
       manager.getServices()
     );
@@ -149,12 +153,13 @@ export function main(args: string[]) {
     .requiredOption("--dir [string]", "mock watch dir")
     .option("-p, --port [number]", "port", "18877")
     .option("--prefix [string]", "prefix of api", "/")
-    .option("--host", "use host to expose to 0.0.0.0", "false")
+    .option("--host", "use host to expose to 0.0.0.0")
     .option(
       "--file-prefix",
       "file prefix, like mock ('file.mock.ts' will be matched)",
       "mock"
     )
+    .option("--express-log", "option to enable express requests logs")
     .action(async (params) => {
       await handleMock(params);
     });

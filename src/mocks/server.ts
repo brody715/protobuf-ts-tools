@@ -152,6 +152,7 @@ export type MockServerOptions = {
   prefix?: string;
   port?: number;
   host?: string;
+  expressLog?: boolean;
 };
 
 export class MockServer {
@@ -168,6 +169,7 @@ export class MockServer {
       prefix: opts.prefix || "/",
       port: opts.port || 18877,
       host: opts.host || "127.0.0.1",
+      expressLog: opts.expressLog || false,
     };
 
     this.express = express();
@@ -178,8 +180,11 @@ export class MockServer {
       }
       res.status(500).send(JSON.stringify(err));
     });
-    // requests logger, @see https://github.com/expressjs/morgan
-    this.express.use(morgan("combined"));
+
+    if (this.opts.expressLog) {
+      // requests logger, @see https://github.com/expressjs/morgan
+      this.express.use(morgan("combined"));
+    }
 
     // routers
     const router = express.Router();
